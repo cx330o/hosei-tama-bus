@@ -10,6 +10,7 @@ const db = new Database(config.SQLITE_URL);
 
 // Enable WAL mode for better concurrent read performance
 db.pragma("journal_mode = WAL");
+db.pragma("foreign_keys = ON");
 
 console.log(`Connected to the database: ${config.SQLITE_URL}`);
 
