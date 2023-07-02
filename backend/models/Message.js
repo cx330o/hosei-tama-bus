@@ -2,7 +2,6 @@ const db = require("../utils/db");
 
 function createMessage(text) {
   const creationTime = new Date().toISOString();
-  // messages expire after 24 hours by default
   const expirationTime = new Date(
     Date.now() + 24 * 60 * 60 * 1000
   ).toISOString();
@@ -14,6 +13,20 @@ function createMessage(text) {
   return result.lastInsertRowid;
 }
 
+function getMessages() {
+  const currentTime = new Date().toISOString();
+  const sql = `SELECT
+    m.id as message_id,
+    m.creation_time as message_creation_time,
+    m.text as message_text
+  FROM Message m
+  WHERE m.expiration_time > ?
+  ORDER BY m.creation_time DESC`;
+
+  return db.prepare(sql).all(currentTime);
+}
+
 module.exports = {
   createMessage,
+  getMessages,
 };
