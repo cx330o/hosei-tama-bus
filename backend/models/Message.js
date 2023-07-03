@@ -13,17 +13,33 @@ function createMessage(text) {
   return result.lastInsertRowid;
 }
 
-function getMessages() {
+function getMessages({ cursor, limit = 20 } = {}) {
   const currentTime = new Date().toISOString();
-  const sql = `SELECT
+
+  let sql = `SELECT
     m.id as message_id,
     m.creation_time as message_creation_time,
     m.text as message_text
   FROM Message m
-  WHERE m.expiration_time > ?
-  ORDER BY m.creation_time DESC`;
+  WHERE m.expiration_time > ?`;
+  const params = [currentTime];
 
-  return db.prepare(sql).all(currentTime);
+  if (cursor) {
+    sql += ` AND m.creation_time < ?`;
+    params.push(cursor);
+  }
+
+  sql += ` ORDER BY m.creation_time DESC LIMIT ?`;
+  params.push(limit + 1);
+
+  const rows = db.prepare(sql).all(...params);
+  const hasMore = rows.length > limit;
+  const messages = rows.slice(0, limit);
+
+  const lastMessage = messages[messages.length - 1];
+  const nextCursor = hasMore ? lastMessage.message_creation_time : null;
+
+  return { messages, hasMore, nextCursor };
 }
 
 module.exports = {
