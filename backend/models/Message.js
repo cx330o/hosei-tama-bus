@@ -42,7 +42,27 @@ function getMessages({ cursor, limit = 20 } = {}) {
   return { messages, hasMore, nextCursor };
 }
 
+function getMessage(messageId) {
+  const sql = `SELECT
+    m.id as message_id,
+    m.creation_time as message_creation_time,
+    m.text as message_text
+  FROM Message m
+  WHERE m.id = ?`;
+
+  const row = db.prepare(sql).get(messageId);
+  if (!row) {
+    return {
+      message_id: null,
+      message_creation_time: null,
+      message_text: null,
+    };
+  }
+  return row;
+}
+
 module.exports = {
   createMessage,
   getMessages,
+  getMessage,
 };
