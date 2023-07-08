@@ -15,6 +15,17 @@ router.get("/", (req, res) => {
   }
 });
 
+router.get("/:messageId", (req, res) => {
+  const messageId = req.params.messageId;
+  try {
+    const message = messageService.getMessage(messageId);
+    res.status(200).json({ data: message });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
+
 router.post("/", (req, res) => {
   const text = req.body.text ? req.body.text.trim() : null;
   try {
