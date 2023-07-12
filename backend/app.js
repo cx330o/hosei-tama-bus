@@ -1,5 +1,6 @@
 const express = require("express");
 const app = express();
+require("express-async-errors");
 const cors = require("cors");
 const messageRouter = require("./routers/messages");
 const middleware = require("./utils/middleware");
