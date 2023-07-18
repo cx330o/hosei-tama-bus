@@ -1,5 +1,7 @@
 const router = require("express").Router();
+const upload = require("../utils/multerConfig");
 const messageService = require("../models/Message");
+const fileService = require("../models/File");
 
 router.get("/", (req, res) => {
   try {
@@ -26,10 +28,15 @@ router.get("/:messageId", (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
+router.post("/", upload.array("files"), (req, res) => {
   const text = req.body.text ? req.body.text.trim() : null;
+  const files = req.files;
   try {
     const messageId = messageService.createMessage(text);
+    if (files && files.length > 0) {
+      files.forEach((file) => fileService.createFile(messageId, file));
+    }
+
     const message = messageService.getMessage(messageId);
     res.status(200).json({ data: message });
   } catch (error) {
