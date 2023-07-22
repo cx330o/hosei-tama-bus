@@ -14,6 +14,15 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({
+  storage: storage,
+  fileFilter(req, file, callback) {
+    // Fix garbled Chinese filenames from multipart encoding
+    file.originalname = Buffer.from(file.originalname, "latin1").toString(
+      "utf8"
+    );
+    callback(null, true);
+  },
+});
 
 module.exports = upload;
