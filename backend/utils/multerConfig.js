@@ -16,6 +16,7 @@ const storage = multer.diskStorage({
 
 const upload = multer({
   storage: storage,
+  limits: { fileSize: 10 * 1024 * 1024 }, // 10MB per file
   fileFilter(req, file, callback) {
     // Fix garbled Chinese filenames from multipart encoding
     file.originalname = Buffer.from(file.originalname, "latin1").toString(
