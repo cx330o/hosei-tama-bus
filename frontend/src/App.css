@@ -1,0 +1,10 @@
+/* Quill Editor */
+.ql-editor::before {
+  color: #6b7280 !important;
+  opacity: 0.6;
+  font-style: italic !important;
+}
+.ql-editor {
+  background-color: transparent !important;
+  color: #e5e7eb !important;
+}
