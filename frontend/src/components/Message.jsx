@@ -1,4 +1,5 @@
 import FormattedDateTime from "./FormattedDateTime";
+import MessageText from "./MessageText";
 
 const Message = ({ message }) => {
   return (
@@ -6,7 +7,7 @@ const Message = ({ message }) => {
       <div className="mb-2">
         <FormattedDateTime dateTime={message.message_creation_time} />
       </div>
-      <p>{message.message_text}</p>
+      <MessageText text={message.message_text} />
     </div>
   );
 };
