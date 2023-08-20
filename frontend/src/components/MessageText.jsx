@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import { Editor } from "primereact/editor";
 import { Copy, Check } from "lucide-react";
 import toast, { Toaster } from "react-hot-toast";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 
 const MessageText = ({ text }) => {
   const editorRef = useRef(null);
@@ -40,16 +42,18 @@ const MessageText = ({ text }) => {
       {text && (
         <>
           <Editor ref={editorRef} value={text} readOnly theme="bubble" />
-          <button
-            onClick={copyToClipboard}
-            className={`absolute right-0 top-4 transition-colors ${
-              copied
-                ? "text-emerald-400"
-                : "text-gray-500 hover:text-gray-300"
-            }`}
-          >
-            {copied ? <Check size={16} /> : <Copy size={16} />}
-          </button>
+          <Tippy content={copied ? "Copied!" : "Copy text"}>
+            <button
+              onClick={copyToClipboard}
+              className={`absolute right-0 top-4 transition-colors ${
+                copied
+                  ? "text-emerald-400"
+                  : "text-gray-500 hover:text-gray-300"
+              }`}
+            >
+              {copied ? <Check size={16} /> : <Copy size={16} />}
+            </button>
+          </Tippy>
         </>
       )}
     </div>
