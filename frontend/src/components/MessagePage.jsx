@@ -4,16 +4,24 @@ import messageService from "../services/message";
 
 const MessagesPage = () => {
   const [messages, setMessages] = useState([]);
+  const [nextCursor, setNextCursor] = useState(null);
+  const [hasMore, setHasMore] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  const fetchMessages = () => {
+  const fetchMessages = (cursor) => {
     setLoading(true);
     setError(null);
     messageService
-      .getAll()
+      .getAll({ cursor })
       .then((result) => {
-        setMessages(result.messages);
+        if (cursor) {
+          setMessages((prev) => [...prev, ...result.messages]);
+        } else {
+          setMessages(result.messages);
+        }
+        setNextCursor(result.nextCursor);
+        setHasMore(result.hasMore);
       })
       .catch(() => setError("Failed to load messages. Is the server running?"))
       .finally(() => setLoading(false));
@@ -22,6 +30,11 @@ const MessagesPage = () => {
   useEffect(() => {
     fetchMessages();
   }, []);
+
+  const loadMore = () => {
+    if (!nextCursor || loading) return;
+    fetchMessages(nextCursor);
+  };
 
   return (
     <div className="flex flex-col w-full px-2 text-[#e5e7eb]">
@@ -45,6 +58,15 @@ const MessagesPage = () => {
         </div>
       )}
       <MessageList messages={messages} />
+      {hasMore && (
+        <button
+          onClick={loadMore}
+          disabled={loading}
+          className="mx-2 my-4 px-4 py-2.5 text-sm text-gray-400 bg-[#1a1a1a] rounded-xl border border-gray-800/40 disabled:opacity-50"
+        >
+          {loading ? "Loading..." : "Load more messages"}
+        </button>
+      )}
     </div>
   );
 };
