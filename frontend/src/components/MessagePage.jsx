@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import MessageList from "./MessageList";
 import messageService from "../services/message";
+import Input from "./Input";
 
 const MessagesPage = () => {
   const [messages, setMessages] = useState([]);
@@ -39,6 +40,7 @@ const MessagesPage = () => {
   return (
     <div className="flex flex-col w-full px-2 text-[#e5e7eb]">
       <h1 className="text-lg font-bold p-4">FastSend</h1>
+      <Input />
       {error && (
         <div className="mx-2 mb-3 p-3 rounded-lg bg-red-500/10 text-red-300 text-sm">
           {error}
