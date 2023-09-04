@@ -15,7 +15,7 @@ const InputEditor = ({ text, setText }) => {
       <Editor
         theme="bubble"
         value={text}
-        placeholder="Input text here..."
+        placeholder="Input text or paste images here... Press Cmd/Ctrl + Enter to send"
         onTextChange={(e) => setText(e.htmlValue || "")}
         style={{ minHeight: "150px" }}
         headerTemplate={header}
