@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Editor } from "primereact/editor";
 
-const InputEditor = ({ text, setText, onSend }) => {
+const InputEditor = ({ text, setText, onPaste, onSend }) => {
   const [key, setKey] = useState(0);
 
   const handleKeyDown = (event) => {
@@ -29,6 +29,7 @@ const InputEditor = ({ text, setText, onSend }) => {
         value={text}
         placeholder="Input text or paste images here... Press Cmd/Ctrl + Enter to send"
         onTextChange={(e) => setText(e.htmlValue || "")}
+        onPaste={onPaste}
         onKeyDown={handleKeyDown}
         style={{ minHeight: "150px" }}
         headerTemplate={header}
