@@ -1,24 +1,37 @@
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+
 import InputEditor from "./InputEditor";
+import InputToolbar from "./InputToolbar";
 import messageService from "../services/message";
 
 const Input = () => {
   const [text, setText] = useState("");
+  const [files, setFiles] = useState([]);
+
+  const handleFilesSelect = (event) => {
+    setFiles((prev) => [...prev, ...Array.from(event.target.files)]);
+  };
 
   const handleSend = async () => {
     const hasText = text.replace(/<[^>]*>/g, "").trim().length > 0;
-    if (!hasText) {
-      toast.error("Please add some text before sending");
+    const hasFiles = files.length > 0;
+
+    if (!hasText && !hasFiles) {
+      toast.error("Please add some text or files before sending");
       return;
     }
 
     try {
       const formData = new FormData();
-      formData.append("text", text);
+      formData.append("text", hasText ? text : "");
+      files.forEach((file) => {
+        formData.append("files", file);
+      });
       const newMessage = await messageService.create(formData);
       if (newMessage) {
         setText("");
+        setFiles([]);
       }
     } catch {
       toast.error("Failed to send message");
@@ -31,13 +44,8 @@ const Input = () => {
       <div className="p-4">
         <InputEditor text={text} setText={setText} onSend={handleSend} />
       </div>
-      <div className="border-t border-gray-800/30 p-2">
-        <button
-          onClick={handleSend}
-          className="px-4 py-2 bg-indigo-600 text-white rounded-lg text-sm"
-        >
-          Send
-        </button>
+      <div className="border-t border-gray-800/30">
+        <InputToolbar onFilesSelected={handleFilesSelect} onSend={handleSend} />
       </div>
     </div>
   );
