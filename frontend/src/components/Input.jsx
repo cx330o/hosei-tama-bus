@@ -2,6 +2,7 @@ import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 
 import InputEditor from "./InputEditor";
+import InputFileArea from "./InputFileArea";
 import InputToolbar from "./InputToolbar";
 import messageService from "../services/message";
 
@@ -11,6 +12,10 @@ const Input = () => {
 
   const handleFilesSelect = (event) => {
     setFiles((prev) => [...prev, ...Array.from(event.target.files)]);
+  };
+
+  const handleRemoveFile = (fileToRemove) => {
+    setFiles(files.filter((file) => file !== fileToRemove));
   };
 
   const handleSend = async () => {
@@ -44,6 +49,7 @@ const Input = () => {
       <div className="p-4">
         <InputEditor text={text} setText={setText} onSend={handleSend} />
       </div>
+      <InputFileArea files={files} onRemoveFile={handleRemoveFile} />
       <div className="border-t border-gray-800/30">
         <InputToolbar onFilesSelected={handleFilesSelect} onSend={handleSend} />
       </div>
