@@ -18,6 +18,17 @@ const Input = () => {
     setFiles(files.filter((file) => file !== fileToRemove));
   };
 
+  const handlePaste = (event) => {
+    const items = event.clipboardData.items;
+    for (const item of items) {
+      if (item.type.startsWith("image/")) {
+        const file = item.getAsFile();
+        setFiles((prev) => [...prev, file]);
+        event.preventDefault();
+      }
+    }
+  };
+
   const handleSend = async () => {
     const hasText = text.replace(/<[^>]*>/g, "").trim().length > 0;
     const hasFiles = files.length > 0;
@@ -47,7 +58,12 @@ const Input = () => {
     <div className="mx-2 mb-4 bg-[#1a1a1a] rounded-xl border border-gray-800/40 overflow-hidden">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="p-4">
-        <InputEditor text={text} setText={setText} onSend={handleSend} />
+        <InputEditor
+          text={text}
+          setText={setText}
+          onPaste={handlePaste}
+          onSend={handleSend}
+        />
       </div>
       <InputFileArea files={files} onRemoveFile={handleRemoveFile} />
       <div className="border-t border-gray-800/30">
