@@ -55,7 +55,9 @@ const Input = () => {
   };
 
   return (
-    <div className="mx-2 mb-4 bg-[#1a1a1a] rounded-xl border border-gray-800/40 overflow-hidden">
+    <div
+      className="mx-2 mb-4 bg-[#1a1a1a] rounded-xl border transition-colors duration-200 overflow-hidden border-gray-800/40 hover:border-indigo-500/40 focus-within:border-indigo-500/60"
+    >
       <Toaster position="top-center" reverseOrder={false} />
       <div className="p-4">
         <InputEditor
