@@ -1,4 +1,5 @@
 import { Button } from "primereact/button";
+import FileItem from './FileItem'; 
 
 const InputFileItem = ({ file, onRemove }) => {
   const handleRemoveClick = () => {
@@ -6,8 +7,8 @@ const InputFileItem = ({ file, onRemove }) => {
   };
 
   return (
-    <div className="flex gap-2 m-1 items-center">
-      <span className="text-sm text-gray-300 truncate">{file.name}</span>
+    <div className="flex gap-2 m-1 file-item">
+      <FileItem file={file} />
       <div className="flex-none">
         <Button icon="pi pi-trash " text onClick={handleRemoveClick}></Button>
       </div>
