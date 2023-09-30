@@ -6,6 +6,7 @@ const MessageFileItem = ({ file }) => {
   const fileUrlBase = `${import.meta.env.VITE_API_BASE_URL}/api/files/`;
   const baseUrl = import.meta.env.VITE_API_BASE_URL;
   const isImage = file.file_type.startsWith("image/");
+  const isAudio = file.file_type.startsWith("audio/");
 
   const handleCopyClick = async () => {
     if (!isImage) {
@@ -69,6 +70,14 @@ const MessageFileItem = ({ file }) => {
           />
         </div>
       </div>
+      {isAudio && (
+        <audio
+          src={`${fileUrlBase}${file.file_name}`}
+          controls
+          className="w-full mt-2 h-10 rounded-lg"
+          preload="metadata"
+        />
+      )}
     </div>
   );
 };
