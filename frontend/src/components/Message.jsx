@@ -1,4 +1,5 @@
 import FormattedDateTime from "./FormattedDateTime";
+import MessageFiles from "./MessageFiles";
 import MessageText from "./MessageText";
 
 const Message = ({ message }) => {
@@ -8,6 +9,7 @@ const Message = ({ message }) => {
         <FormattedDateTime dateTime={message.message_creation_time} />
       </div>
       <MessageText text={message.message_text} />
+      <MessageFiles files={message.message_files} />
     </div>
   );
 };
