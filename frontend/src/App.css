@@ -8,3 +8,12 @@
   background-color: transparent !important;
   color: #e5e7eb !important;
 }
+
+/* Card hover effect */
+.message-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+.message-card:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
