@@ -16,5 +16,6 @@ CREATE TABLE File (
     file_type TEXT NOT NULL,
     file_size INTEGER NOT NULL,
     file_name TEXT NOT NULL,
+    file_original_name TEXT NOT NULL,
     FOREIGN KEY(message_id) REFERENCES Message(id)
 );
