@@ -11,7 +11,7 @@ router.get("/:filename", (req, res) => {
     const originalFileName = getOriginalFileNameByFileName(filename);
     if (!originalFileName) return res.status(404).send("File not found");
     res.download(filePath, originalFileName, (err) => {
-      if (err) res.status(404).send("File not found");
+      if (err && !res.headersSent) res.status(404).send("File not found");
     });
   } catch (error) {
     console.error(error);
