@@ -1,4 +1,5 @@
 const db = require("../utils/db");
+const { deleteFile } = require("../utils/file");
 
 function createFile(messageId, file) {
   const stmt = db.prepare(`INSERT INTO File (message_id, file_type, file_size, file_name, file_original_name) VALUES (?, ?, ?, ?, ?)`);
@@ -12,4 +13,10 @@ function getOriginalFileNameByFileName(fileName) {
   return row ? row.file_original_name : null;
 }
 
-module.exports = { createFile, getOriginalFileNameByFileName };
+function deleteFileByMessageId(messageId) {
+  const files = db.prepare(`SELECT file_name FROM File WHERE message_id = ?`).all(messageId);
+  for (const file of files) { deleteFile(file.file_name); }
+  db.prepare(`DELETE FROM File WHERE message_id = ?`).run(messageId);
+}
+
+module.exports = { createFile, getOriginalFileNameByFileName, deleteFileByMessageId };
