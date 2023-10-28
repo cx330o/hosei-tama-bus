@@ -1,4 +1,5 @@
 const db = require("../utils/db");
+const { deleteFileByMessageId } = require("../models/File");
 
 function createMessage(text) {
   const creationTime = new Date().toISOString();
@@ -50,4 +51,9 @@ function getMessage(messageId) {
   return groupRows(rows)[0];
 }
 
-module.exports = { createMessage, getMessages, getMessage };
+function deleteMessage(messageId) {
+  deleteFileByMessageId(messageId);
+  db.prepare(`DELETE FROM Message WHERE id = ?`).run(messageId);
+}
+
+module.exports = { createMessage, getMessages, getMessage, deleteMessage };
