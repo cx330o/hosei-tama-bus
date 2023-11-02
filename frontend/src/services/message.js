@@ -13,11 +13,13 @@ const getAll = async ({ cursor, limit } = {}) => {
 };
 
 const create = async (formData) => {
-  const response = await ofetch(`${baseUrl}/api/messages`, {
-    method: "POST",
-    body: formData,
-  });
+  const response = await ofetch(`${baseUrl}/api/messages`, { method: "POST", body: formData });
   return response.data;
 };
 
-export default { getAll, create };
+const deleteMessage = async (messageId) => {
+  const response = await ofetch(`${baseUrl}/api/messages/${messageId}`, { method: "DELETE" });
+  return response.data;
+};
+
+export default { getAll, create, deleteMessage };
