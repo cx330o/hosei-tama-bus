@@ -2,6 +2,7 @@ const router = require("express").Router();
 const upload = require("../utils/multerConfig");
 const messageService = require("../models/Message");
 const fileService = require("../models/File");
+const { broadcastMessage } = require("../utils/websocketService");
 
 router.get("/", (req, res) => {
   try {
@@ -26,6 +27,7 @@ router.post("/", upload.array("files"), (req, res) => {
     const messageId = messageService.createMessage(text);
     if (files && files.length > 0) files.forEach((file) => fileService.createFile(messageId, file));
     const message = messageService.getMessage(messageId);
+    broadcastMessage({ type: "newMessage", message });
     res.status(200).json({ data: message });
   } catch (error) { console.error(error.message); res.status(500).send("Internal Server Error"); }
 });
