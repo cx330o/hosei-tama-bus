@@ -18,7 +18,7 @@ const Message = ({ message, onDeleteMessage }) => {
   };
 
   return (
-    <div className="message-card p-4 mx-2 mb-3 bg-[#1a1a1a] rounded-xl border border-gray-800/40 hover:border-gray-700/60">
+    <div className="message-card animate-fade-in p-4 mx-2 mb-3 bg-[#1a1a1a] rounded-xl border border-gray-800/40 hover:border-gray-700/60">
       <Toaster position="top-center" reverseOrder={false} />
       <div className="flex justify-between items-center mb-2">
         <FormattedDateTime dateTime={message.message_creation_time} />
