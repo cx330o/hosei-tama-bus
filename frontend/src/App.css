@@ -8,6 +8,25 @@
   background-color: transparent !important;
   color: #e5e7eb !important;
 }
+.ql-toolbar {
+  background-color: transparent !important;
+  border-radius: 8px !important;
+  padding: 4px !important;
+}
+.ql-toolbar button {
+  color: #9ca3af !important;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 6px !important;
+  margin-right: 4px;
+  padding: 4px 8px;
+  transition: background-color 0.2s;
+}
+.ql-toolbar button:last-child {
+  margin-right: 0;
+}
+.ql-toolbar button:hover {
+  background-color: rgba(255, 255, 255, 0.12) !important;
+}
 
 /* Card hover effect */
 .message-card {
@@ -16,4 +35,22 @@
 .message-card:hover {
   transform: translateY(-1px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Smooth fade-in for messages */
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.animate-fade-in {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+/* Load more button pulse */
+.load-more-btn {
+  transition: all 0.2s ease;
+}
+.load-more-btn:hover:not(:disabled) {
+  background-color: #2a2a2a;
+  transform: scale(1.02);
 }
