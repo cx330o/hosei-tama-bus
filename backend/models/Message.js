@@ -1,9 +1,10 @@
 const db = require("../utils/db");
+const config = require("../utils/config");
 const { deleteFileByMessageId } = require("../models/File");
 
 function createMessage(text) {
   const creationTime = new Date().toISOString();
-  const expirationTime = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
+  const expirationTime = new Date(Date.now() + config.MESSAGE_LIFETIME_HOURS * 60 * 60 * 1000).toISOString();
   const stmt = db.prepare(`INSERT INTO Message (creation_time, expiration_time, text) VALUES (?, ?, ?)`);
   const result = stmt.run(creationTime, expirationTime, text);
   return result.lastInsertRowid;
@@ -56,4 +57,9 @@ function deleteMessage(messageId) {
   db.prepare(`DELETE FROM Message WHERE id = ?`).run(messageId);
 }
 
-module.exports = { createMessage, getMessages, getMessage, deleteMessage };
+function getExpiredMessages() {
+  const currentTime = new Date().toISOString();
+  return db.prepare(`SELECT id FROM Message WHERE expiration_time < ?`).all(currentTime);
+}
+
+module.exports = { createMessage, getMessages, getMessage, deleteMessage, getExpiredMessages };
