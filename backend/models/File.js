@@ -19,4 +19,9 @@ function deleteFileByMessageId(messageId) {
   db.prepare(`DELETE FROM File WHERE message_id = ?`).run(messageId);
 }
 
-module.exports = { createFile, getOriginalFileNameByFileName, deleteFileByMessageId };
+function getAllFileNames() {
+  const rows = db.prepare(`SELECT file_name FROM File`).all();
+  return rows.map((row) => row.file_name);
+}
+
+module.exports = { createFile, getOriginalFileNameByFileName, deleteFileByMessageId, getAllFileNames };
