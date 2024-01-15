@@ -7,7 +7,11 @@ const fileRouter = require("./routers/files");
 const downloadRouter = require("./routers/download");
 const middleware = require("./utils/middleware");
 
+// 引入定时任务
+require("./utils/cleanupTasks");
+
 app.use(cors());
+app.use(express.static("dist"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 
