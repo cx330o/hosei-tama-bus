@@ -5,11 +5,17 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon index.js",
-    "start": "node database/init.js ./database/prod_data/fastsend.sqlite ./database/prod_init.sql ./database/prod_data/uploads && cross-env NODE_ENV=production node index.js"
+    "start": "node database/init.js ./database/prod_data/fastsend.sqlite ./database/prod_init.sql ./database/prod_data/uploads && cross-env NODE_ENV=production node index.js",
+    "test": "cross-env NODE_ENV=test jest --verbose --forceExit"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "supertest": "^6.3.4"
+  },
   "dependencies": {
     "better-sqlite3": "^11.0.0",
     "cors": "^2.8.5",
@@ -20,8 +26,5 @@
     "multer": "^1.4.5-lts.1",
     "node-cron": "^3.0.3",
     "ws": "^8.16.0"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.0"
   }
 }
