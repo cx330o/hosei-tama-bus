@@ -26,6 +26,7 @@ describe("POST /api/messages", () => {
   });
 });
 
+
 describe("GET /api/messages (with data)", () => {
   test("returns messages with pagination info", async () => {
     const res = await api.get("/api/messages").expect(200);
@@ -47,5 +48,25 @@ describe("GET /api/messages (with data)", () => {
     const secondPage = await api.get(`/api/messages?limit=1&cursor=${cursor}`).expect(200);
     expect(secondPage.body.data.messages).toHaveLength(1);
     expect(secondPage.body.data.messages[0].message_id).not.toBe(firstPage.body.data.messages[0].message_id);
+  });
+});
+
+describe("GET /api/messages/:id", () => {
+  test("returns a single message", async () => {
+    const createRes = await api.post("/api/messages").field("text", "Single message test").expect(200);
+    const messageId = createRes.body.data.message_id;
+    const res = await api.get(`/api/messages/${messageId}`).expect(200);
+    expect(res.body.data.message_id).toBe(messageId);
+    expect(res.body.data.message_text).toBe("Single message test");
+  });
+});
+
+describe("DELETE /api/messages/:id", () => {
+  test("deletes a message", async () => {
+    const createRes = await api.post("/api/messages").field("text", "To be deleted").expect(200);
+    const messageId = createRes.body.data.message_id;
+    await api.delete(`/api/messages/${messageId}`).expect(200);
+    const getRes = await api.get(`/api/messages/${messageId}`).expect(200);
+    expect(getRes.body.data.message_id).toBeNull();
   });
 });
