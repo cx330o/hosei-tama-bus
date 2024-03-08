@@ -1,0 +1,23 @@
+services:
+  frontend:
+    build: ./frontend
+    restart: unless-stopped
+    container_name: fastsend-frontend
+    ports:
+      - "5180:80"
+    depends_on:
+      - backend
+
+  backend:
+    build: ./backend
+    container_name: fastsend-backend
+    restart: unless-stopped
+    ports:
+      - "9003:9003"
+    volumes:
+      - ./data_bak:/usr/src/app/database/prod_data
+
+networks:
+  default:
+    external: true
+    name: caddy
