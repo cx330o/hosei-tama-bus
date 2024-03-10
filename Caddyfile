@@ -1,0 +1,7 @@
+s.ljsa.top {
+	reverse_proxy fastsend-frontend:80
+
+	handle /api/* {
+		reverse_proxy fastsend-backend:9003
+	}
+}
