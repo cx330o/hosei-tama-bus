@@ -17,6 +17,10 @@ Transferring a snippet of text or a file between devices shouldn't require insta
 - Automatic message expiration and cleanup
 - Cursor-based pagination
 
+## Screenshot
+
+![Screenshot](assets/1.png)
+
 ## Tech Stack
 
 - Frontend: React, Vite, Tailwind CSS, PrimeReact, Quill
@@ -33,9 +37,10 @@ Transferring a snippet of text or a file between devices shouldn't require insta
 
 ### Local Development
 
+
 1. Clone and install dependencies
     ```shell
-    git clone https://github.com/cx330o/FastSend.git
+    git clone https://github.com/insv23/FastSend.git
     cd FastSend
     cd backend && npm install
     cd ../frontend && npm install
