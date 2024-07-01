@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon index.js",
+    "db:dev": "node database/init.js ./database/dev_data/dev_fastsend.sqlite ./database/dev_init.sql ./database/dev_data/dev_uploads",
     "start": "node database/init.js ./database/prod_data/fastsend.sqlite ./database/prod_init.sql ./database/prod_data/uploads && cross-env NODE_ENV=production node index.js",
     "test": "cross-env NODE_ENV=test jest --verbose --forceExit"
   },
@@ -18,6 +19,7 @@
   },
   "dependencies": {
     "better-sqlite3": "^11.0.0",
+    "chalk": "^4.1.2",
     "cors": "^2.8.5",
     "cross-env": "^7.0.3",
     "dotenv": "^16.4.5",
