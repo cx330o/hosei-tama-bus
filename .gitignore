@@ -24,3 +24,10 @@ dist-ssr
 *.sw?
 
 .vite
+
+/backend/database/dev_data/*
+
+frontend/.env.development
+frontend/.env.production
+
+/data_bak
