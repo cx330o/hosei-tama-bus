@@ -15,8 +15,11 @@ app.use(express.static("dist"));
 app.use(express.json());
 app.use(middleware.requestLogger);
 
+// Public routes
 app.use("/api/files", fileRouter);
 app.use("/api/download", downloadRouter);
+
+// Protected routes
 app.use("/api/messages", messageRouter);
 
 app.use(middleware.unknownEndpoint);
