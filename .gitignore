@@ -31,3 +31,6 @@ frontend/.env.development
 frontend/.env.production
 
 /data_bak
+
+# API keys
+apikey
