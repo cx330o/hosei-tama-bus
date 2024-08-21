@@ -1,37 +1,52 @@
-import React, { useState, useEffect, useCallback } from "react";
-import { AlertCircle } from "lucide-react";
-import MessageList from "./MessageList";
-import messageService from "../services/message";
-import useWebSocket from "../hooks/useWebSocket";
-import Input from "./Input";
-import TopBar from "./TopBar";
+import { useState, useEffect, useCallback } from "react"
+import { AlertCircle } from "lucide-react"
+import MessageList from "./MessageList"
+import messageService from "../services/message"
+import useWebSocket from "../hooks/useWebSocket"
+import Input from "./Input"
+import TopBar from "./TopBar"
+import type { Message } from "../types"
 
 const MessagesPage = () => {
-  const [messages, setMessages] = useState([]);
-  const [nextCursor, setNextCursor] = useState(null);
-  const [hasMore, setHasMore] = useState(false);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [messages, setMessages] = useState<Message[]>([])
+  const [nextCursor, setNextCursor] = useState<string | null>(null)
+  const [hasMore, setHasMore] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const fetchMessages = (cursor) => {
-    setLoading(true);
-    setError(null);
+  const fetchMessages = (cursor?: string) => {
+    setLoading(true)
+    setError(null)
     messageService.getAll({ cursor })
       .then((result) => {
-        if (cursor) { setMessages((prev) => [...prev, ...result.messages]); }
-        else { setMessages(result.messages); }
-        setNextCursor(result.nextCursor);
-        setHasMore(result.hasMore);
+        if (cursor) {
+          setMessages((prev) => [...prev, ...result.messages])
+        } else {
+          setMessages(result.messages)
+        }
+        setNextCursor(result.nextCursor)
+        setHasMore(result.hasMore)
       })
       .catch(() => setError("Failed to load messages. Is the server running?"))
-      .finally(() => setLoading(false));
-  };
+      .finally(() => setLoading(false))
+  }
 
-  useEffect(() => { fetchMessages(); }, []);
-  const loadMore = () => { if (!nextCursor || loading) return; fetchMessages(nextCursor); };
-  const handleNewMessage = useCallback((newMessage) => { setMessages((prevMessages) => [newMessage, ...prevMessages]); }, []);
-  useWebSocket(handleNewMessage);
-  const handleDeleteMessage = (messageId) => { setMessages(messages.filter((message) => message.message_id !== messageId)); };
+  useEffect(() => { fetchMessages() }, [])
+
+  const loadMore = () => {
+    if (!nextCursor || loading) return
+    fetchMessages(nextCursor)
+  }
+
+  const handleNewMessage = useCallback((newMessage: Message) => {
+    setMessages((prevMessages) => [newMessage, ...prevMessages])
+  }, [])
+
+  useWebSocket(handleNewMessage)
+
+  const handleDeleteMessage = (messageId: number) => {
+    setMessages(messages.filter((message) => message.message_id !== messageId))
+  }
 
   return (
     <div className="flex flex-col w-full px-2 sm:px-0 sm:max-w-md md:max-w-lg lg:max-w-xl text-[#e5e7eb]">
@@ -44,7 +59,9 @@ const MessagesPage = () => {
           <button onClick={() => fetchMessages()} className="text-xs text-red-400 hover:text-red-300 px-3 py-1 rounded-lg border border-red-500/30 hover:bg-red-500/10 transition-colors flex-none">Retry</button>
         </div>
       )}
-      {loading && messages.length === 0 && !error && (<div className="text-center py-8 text-gray-500 text-sm">Loading messages...</div>)}
+      {loading && messages.length === 0 && !error && (
+        <div className="text-center py-8 text-gray-500 text-sm">Loading messages...</div>
+      )}
       {!loading && !error && messages.length === 0 && (
         <div className="text-center py-12">
           <p className="text-gray-500 text-sm">No messages yet</p>
@@ -58,7 +75,7 @@ const MessagesPage = () => {
         </button>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default MessagesPage;
+export default MessagesPage
