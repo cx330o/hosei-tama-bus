@@ -1,19 +1,21 @@
-import React from "react";
+interface FormattedDateTimeProps {
+  dateTime: string
+}
 
-const FormattedDateTime = ({ dateTime }) => {
-  const now = new Date();
-  const date = new Date(dateTime);
-  const diffMs = now - date;
-  const diffMins = Math.floor(diffMs / 60000);
-  const diffHours = Math.floor(diffMs / 3600000);
+const FormattedDateTime = ({ dateTime }: FormattedDateTimeProps) => {
+  const now = new Date()
+  const date = new Date(dateTime)
+  const diffMs = now.getTime() - date.getTime()
+  const diffMins = Math.floor(diffMs / 60000)
+  const diffHours = Math.floor(diffMs / 3600000)
 
-  let relativeTime;
+  let relativeTime: string
   if (diffMins < 1) {
-    relativeTime = "just now";
+    relativeTime = "just now"
   } else if (diffMins < 60) {
-    relativeTime = `${diffMins}m ago`;
+    relativeTime = `${diffMins}m ago`
   } else if (diffHours < 24) {
-    relativeTime = `${diffHours}h ago`;
+    relativeTime = `${diffHours}h ago`
   } else {
     relativeTime = new Intl.DateTimeFormat("en", {
       month: "short",
@@ -21,7 +23,7 @@ const FormattedDateTime = ({ dateTime }) => {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,
-    }).format(date);
+    }).format(date)
   }
 
   const fullDateTime = new Intl.DateTimeFormat("zh-CN", {
@@ -32,7 +34,7 @@ const FormattedDateTime = ({ dateTime }) => {
     minute: "2-digit",
     second: "2-digit",
     hour12: false,
-  }).format(date);
+  }).format(date)
 
   return (
     <time
@@ -42,7 +44,7 @@ const FormattedDateTime = ({ dateTime }) => {
     >
       {relativeTime}
     </time>
-  );
-};
+  )
+}
 
-export default FormattedDateTime;
+export default FormattedDateTime

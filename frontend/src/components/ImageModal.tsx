@@ -1,7 +1,12 @@
-import React from "react";
+interface ImageModalProps {
+  isOpen: boolean
+  imageUrl: string
+  alt: string
+  onClick: () => void
+}
 
-const ImageModal = ({ isOpen, imageUrl, alt, onClick }) => {
-  if (!isOpen) return null;
+const ImageModal = ({ isOpen, imageUrl, alt, onClick }: ImageModalProps) => {
+  if (!isOpen) return null
 
   return (
     <div
@@ -14,7 +19,7 @@ const ImageModal = ({ isOpen, imageUrl, alt, onClick }) => {
         className="max-w-[90vw] max-h-[90vh] rounded-lg shadow-2xl"
       />
     </div>
-  );
-};
+  )
+}
 
-export default ImageModal;
+export default ImageModal

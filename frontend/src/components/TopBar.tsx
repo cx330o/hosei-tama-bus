@@ -1,4 +1,4 @@
-import { Send } from "lucide-react";
+import { Send } from "lucide-react"
 
 const TopBar = () => {
   return (
@@ -17,7 +17,7 @@ const TopBar = () => {
         <span className="text-xs text-emerald-400">Connected</span>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default TopBar;
+export default TopBar
