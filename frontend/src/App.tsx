@@ -1,13 +1,21 @@
-import React from "react";
-import MessagePage from "./components/MessagePage";
-import "./App.css";
+import { BrowserRouter, Routes, Route } from "react-router-dom"
+import MessagePage from "./components/MessagePage"
+import LoginPage from "./components/LoginPage"
+import "./App.css"
 
 const App = () => {
   return (
-    <div className="flex justify-center min-h-screen bg-[#0e0e0e]">
-      <MessagePage />
-    </div>
-  );
-};
+    <BrowserRouter>
+      <Routes>
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/" element={
+          <div className="flex justify-center min-h-screen bg-[#0e0e0e]">
+            <MessagePage />
+          </div>
+        } />
+      </Routes>
+    </BrowserRouter>
+  )
+}
 
-export default App;
+export default App
