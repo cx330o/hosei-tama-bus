@@ -20,7 +20,8 @@
     "react-dom": "^18.2.0",
     "react-hot-toast": "^2.4.1",
     "react-router-dom": "^7.14.0",
-    "react-verification-input": "^4.1.2"
+    "react-verification-input": "^4.1.2",
+    "zustand": "^5.0.12"
   },
   "devDependencies": {
     "@types/react": "^18.3.28",
