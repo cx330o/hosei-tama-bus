@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import MessagePage from "./components/MessagePage"
 import LoginPage from "./components/LoginPage"
+import ProtectedRoute from "./components/ProtectedRoute"
 import "./App.css"
 
 const App = () => {
@@ -9,9 +10,11 @@ const App = () => {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={
-          <div className="flex justify-center min-h-screen bg-[#0e0e0e]">
-            <MessagePage />
-          </div>
+          <ProtectedRoute>
+            <div className="flex justify-center min-h-screen bg-[#0e0e0e]">
+              <MessagePage />
+            </div>
+          </ProtectedRoute>
         } />
       </Routes>
     </BrowserRouter>

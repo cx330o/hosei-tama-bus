@@ -2,11 +2,13 @@ import { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { Send } from "lucide-react"
 import toast, { Toaster } from "react-hot-toast"
+import useAuthStore from "../stores/authStore"
 
 const LoginPage = () => {
   const [code, setCode] = useState("")
   const [loading, setLoading] = useState(false)
   const navigate = useNavigate()
+  const login = useAuthStore((state) => state.login)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -16,8 +18,7 @@ const LoginPage = () => {
     }
     setLoading(true)
     try {
-      const token = btoa(`${code.trim()}:`)
-      localStorage.setItem("auth_token", token)
+      login(code.trim())
       navigate("/")
     } catch {
       toast.error("Something went wrong")
