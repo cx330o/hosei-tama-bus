@@ -1,4 +1,4 @@
-import { Send, LogOut } from "lucide-react"
+import { Send, LogOut, Settings } from "lucide-react"
 import { useNavigate } from "react-router-dom"
 import useAuthStore from "../stores/authStore"
 
@@ -27,6 +27,13 @@ const TopBar = () => {
           <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
           <span className="text-xs text-emerald-400">Connected</span>
         </div>
+        <button
+          onClick={() => navigate("/settings")}
+          className="p-2 rounded-lg text-gray-500 hover:text-gray-300 hover:bg-white/5 transition-colors"
+          title="Settings"
+        >
+          <Settings size={16} />
+        </button>
         <button
           onClick={handleLogout}
           className="p-2 rounded-lg text-gray-500 hover:text-gray-300 hover:bg-white/5 transition-colors"
