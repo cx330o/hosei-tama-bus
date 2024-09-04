@@ -1,11 +1,24 @@
+import { useEffect } from "react"
 import { BrowserRouter, Routes, Route } from "react-router-dom"
 import MessagePage from "./components/MessagePage"
 import LoginPage from "./components/LoginPage"
 import SettingsPage from "./components/SettingsPage"
 import ProtectedRoute from "./components/ProtectedRoute"
+import useThemeStore from "./stores/themeStore"
 import "./App.css"
 
 const App = () => {
+  const theme = useThemeStore((state) => state.theme)
+
+  useEffect(() => {
+    const root = document.documentElement
+    if (theme === "dark") {
+      root.classList.add("dark")
+    } else {
+      root.classList.remove("dark")
+    }
+  }, [theme])
+
   return (
     <BrowserRouter>
       <Routes>
@@ -17,7 +30,7 @@ const App = () => {
         } />
         <Route path="/" element={
           <ProtectedRoute>
-            <div className="flex justify-center min-h-screen bg-[#0e0e0e]">
+            <div className="flex justify-center min-h-screen dark:bg-[#0e0e0e] bg-gray-50">
               <MessagePage />
             </div>
           </ProtectedRoute>
