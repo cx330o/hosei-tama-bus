@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react"
 import { AlertCircle } from "lucide-react"
 import MessageList from "./MessageList"
+import MessageSkeletonList from "./MessageSkeleton"
 import messageService from "../services/message"
 import useWebSocket from "../hooks/useWebSocket"
 import Input from "./Input"
@@ -60,7 +61,7 @@ const MessagesPage = () => {
         </div>
       )}
       {loading && messages.length === 0 && !error && (
-        <div className="text-center py-8 text-gray-500 text-sm">Loading messages...</div>
+        <MessageSkeletonList />
       )}
       {!loading && !error && messages.length === 0 && (
         <div className="text-center py-12">
