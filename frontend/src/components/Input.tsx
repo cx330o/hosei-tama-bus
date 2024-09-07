@@ -9,6 +9,7 @@ const Input = () => {
   const [text, setText] = useState("")
   const [files, setFiles] = useState<File[]>([])
   const [dragging, setDragging] = useState(false)
+  const [uploading, setUploading] = useState(false)
 
   const handleFilesSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
@@ -44,13 +45,16 @@ const Input = () => {
     const hasText = text.replace(/<[^>]*>/g, "").trim().length > 0
     const hasFiles = files.length > 0
     if (!hasText && !hasFiles) { toast.error("Please add some text or files before sending"); return }
+    setUploading(true)
     try {
       const formData = new FormData()
       formData.append("text", hasText ? text : "")
       files.forEach((file) => { formData.append("files", file) })
       const newMessage = await messageService.create(formData)
       if (newMessage) { setText(""); setFiles([]) }
-    } catch { toast.error("Failed to send message") }
+    } catch { toast.error("Failed to send message") } finally {
+      setUploading(false)
+    }
   }
 
   return (
@@ -61,6 +65,14 @@ const Input = () => {
       <Toaster position="top-center" reverseOrder={false} />
       {dragging && (<div className="px-4 py-3 text-center text-sm text-indigo-400 bg-indigo-500/10 border-b border-indigo-500/20">Drop files here to upload</div>)}
       <div className="p-4"><InputEditor text={text} setText={setText} onPaste={handlePaste} onSend={handleSend} /></div>
+      {uploading && (
+        <div className="mx-4 mb-2">
+          <div className="h-1 bg-gray-800 rounded-full overflow-hidden">
+            <div className="h-full bg-indigo-500 rounded-full animate-pulse" style={{ width: "60%" }} />
+          </div>
+          <p className="text-xs text-gray-500 mt-1">Uploading...</p>
+        </div>
+      )}
       <InputFileArea files={files} onRemoveFile={handleRemoveFile} />
       <div className="border-t border-gray-800/30"><InputToolbar onFilesSelected={handleFilesSelect} onSend={handleSend} /></div>
     </div>
