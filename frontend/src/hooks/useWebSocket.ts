@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import type { Message } from "../types"
 
 const url = import.meta.env.VITE_APP_WEBSOCKET_URL
@@ -10,18 +10,23 @@ interface WebSocketMessage {
   message: Message
 }
 
+export type ConnectionStatus = "connected" | "disconnected" | "connecting"
+
 const useWebSocket = (onMessageReceived: (message: Message) => void) => {
   const wsRef = useRef<WebSocket | null>(null)
   const reconnectDelay = useRef(INITIAL_RECONNECT_DELAY)
   const reconnectTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const [status, setStatus] = useState<ConnectionStatus>("connecting")
 
   useEffect(() => {
     function connect() {
+      setStatus("connecting")
       const ws = new WebSocket(url)
       wsRef.current = ws
       ws.onopen = () => {
         console.log("WebSocket connected")
         reconnectDelay.current = INITIAL_RECONNECT_DELAY
+        setStatus("connected")
       }
       ws.onmessage = (event: MessageEvent) => {
         const data: WebSocketMessage = JSON.parse(event.data)
@@ -29,6 +34,7 @@ const useWebSocket = (onMessageReceived: (message: Message) => void) => {
       }
       ws.onclose = () => {
         console.log(`WebSocket disconnected. Reconnecting in ${reconnectDelay.current}ms...`)
+        setStatus("disconnected")
         scheduleReconnect()
       }
       ws.onerror = (error) => {
@@ -54,6 +60,8 @@ const useWebSocket = (onMessageReceived: (message: Message) => void) => {
       }
     }
   }, [onMessageReceived])
+
+  return status
 }
 
 export default useWebSocket

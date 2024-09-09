@@ -43,7 +43,7 @@ const MessagesPage = () => {
     setMessages((prevMessages) => [newMessage, ...prevMessages])
   }, [])
 
-  useWebSocket(handleNewMessage)
+  const connectionStatus = useWebSocket(handleNewMessage)
 
   const handleDeleteMessage = (messageId: number) => {
     setMessages(messages.filter((message) => message.message_id !== messageId))
@@ -51,7 +51,7 @@ const MessagesPage = () => {
 
   return (
     <div className="flex flex-col w-full px-2 sm:px-0 sm:max-w-md md:max-w-lg lg:max-w-xl text-[#e5e7eb]">
-      <TopBar />
+      <TopBar connectionStatus={connectionStatus} />
       <Input />
       {error && (
         <div className="mx-2 mb-3 p-4 rounded-xl bg-red-500/10 border border-red-500/20 flex items-center gap-3">
