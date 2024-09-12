@@ -23,4 +23,7 @@ switch (process.env.NODE_ENV) {
 const MESSAGE_LIFETIME_HOURS = parseInt(process.env.MESSAGE_LIFETIME_HOURS, 10) || 24;
 const ACCESS_CODE = process.env.ACCESS_CODE || "qwer";
 
-module.exports = { PORT, SQLITE_URL, FILE_PATH, MESSAGE_LIFETIME_HOURS, ACCESS_CODE };
+const GROQ_API_KEY = process.env.GROQ_API_KEY || "";
+const AI_MODEL = process.env.AI_MODEL || "llama-3.3-70b-versatile";
+
+module.exports = { PORT, SQLITE_URL, FILE_PATH, MESSAGE_LIFETIME_HOURS, ACCESS_CODE, GROQ_API_KEY, AI_MODEL };
