@@ -5,6 +5,7 @@ const cors = require("cors");
 const messageRouter = require("./routers/messages");
 const fileRouter = require("./routers/files");
 const downloadRouter = require("./routers/download");
+const aiRouter = require("./routers/ai");
 const middleware = require("./utils/middleware");
 
 // 引入定时任务
@@ -21,6 +22,7 @@ app.use("/api/download", downloadRouter);
 
 // Protected routes
 app.use("/api/messages", messageRouter);
+app.use("/api/ai", aiRouter);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
