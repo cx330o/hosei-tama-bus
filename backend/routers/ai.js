@@ -1,6 +1,7 @@
 const router = require("express").Router();
-const { summarize, translate } = require("../services/ai");
+const { summarize, translate, describeImage } = require("../services/ai");
 const messageService = require("../models/Message");
+const config = require("../utils/config");
 
 router.post("/summarize", async (req, res) => {
   const { messageId } = req.body;
@@ -24,6 +25,15 @@ router.post("/translate", async (req, res) => {
 
   const translation = await translate(message.message_text, targetLang || "en");
   res.json({ data: { translation } });
+});
+
+router.post("/describe-image", async (req, res) => {
+  const { fileName } = req.body;
+  if (!fileName) return res.status(400).json({ error: "fileName is required" });
+
+  const imageUrl = `${req.protocol}://${req.get("host")}/api/files/${fileName}`;
+  const description = await describeImage(imageUrl);
+  res.json({ data: { description } });
 });
 
 module.exports = router;

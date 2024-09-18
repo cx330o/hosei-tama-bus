@@ -26,3 +26,11 @@ export const translate = async (messageId: number, targetLang: string = "en"): P
   })
   return response.data.translation
 }
+export const describeImage = async (fileName: string): Promise<string> => {
+  const response = await ofetch(`${baseUrl}/api/ai/describe-image`, {
+    method: "POST",
+    body: { fileName },
+    headers: getAuthHeaders(),
+  })
+  return response.data.description
+}

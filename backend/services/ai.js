@@ -43,4 +43,29 @@ async function translate(text, targetLang = "en") {
   return response.choices[0]?.message?.content || null;
 }
 
-module.exports = { summarize, translate };
+async function describeImage(imageUrl) {
+  const response = await groq.chat.completions.create({
+    model: "llama-3.2-90b-vision-preview",
+    messages: [
+      {
+        role: "user",
+        content: [
+          {
+            type: "text",
+            text: "Describe this image in 1-2 concise sentences. Be specific about what you see.",
+          },
+          {
+            type: "image_url",
+            image_url: { url: imageUrl },
+          },
+        ],
+      },
+    ],
+    max_tokens: 200,
+    temperature: 0.3,
+  });
+
+  return response.choices[0]?.message?.content || null;
+}
+
+module.exports = { summarize, translate, describeImage };
