@@ -9,13 +9,19 @@ Transferring a snippet of text or a file between devices shouldn't require insta
 ## Features
 
 - Docker deployment with Caddy reverse proxy (auto HTTPS)
-- No registration — open and use immediately
+- Access code authentication with persistent sessions
 - Paste text or images directly from clipboard
 - Upload and preview images, audio, and video inline
 - One-click copy and download for files
-- Real-time updates via WebSocket
+- Real-time updates via WebSocket with connection status indicator
 - Automatic message expiration and cleanup
-- Cursor-based pagination
+- Cursor-based pagination with skeleton loading
+- Dark / Light theme toggle
+- **AI-powered features:**
+  - Message summarization (Groq LLM)
+  - Text translation to any language
+  - Image description with vision model
+  - Results cached in database to avoid duplicate API calls
 
 ## Screenshot
 
@@ -23,10 +29,10 @@ Transferring a snippet of text or a file between devices shouldn't require insta
 
 ## Tech Stack
 
-- Frontend: React, Vite, Tailwind CSS, PrimeReact, Quill
-- Backend: Express, better-sqlite3, WebSocket
+- Frontend: React, TypeScript, Vite, Tailwind CSS, PrimeReact, Quill, Zustand, React Router
+- Backend: Express, better-sqlite3, WebSocket, Groq SDK
 - Deployment: Docker, Docker Compose, Caddy
-- Testing: Jest, Supertest
+- Testing: Jest + Supertest (backend), Vitest + Testing Library (frontend)
 - CI: GitHub Actions
 
 ## Getting Started
@@ -34,9 +40,9 @@ Transferring a snippet of text or a file between devices shouldn't require insta
 ### Prerequisites
 - Node.js 20+
 - Docker (for deployment)
+- Groq API key (for AI features, get one at https://console.groq.com)
 
 ### Local Development
-
 
 1. Clone and install dependencies
     ```shell
@@ -52,8 +58,11 @@ Transferring a snippet of text or a file between devices shouldn't require insta
     npm run db:dev
     ```
 
-3. Create frontend env file
+3. Configure environment
     ```shell
+    # Backend - edit .env and set your GROQ_API_KEY
+    cd backend
+    # Frontend
     cd ../frontend
     cp .env.development.example .env.development
     ```
@@ -72,8 +81,11 @@ Transferring a snippet of text or a file between devices shouldn't require insta
 ### Running Tests
 
 ```shell
-cd backend
-npm test
+# Backend tests
+cd backend && npm test
+
+# Frontend tests
+cd frontend && npm test
 ```
 
 ### Docker Deployment
