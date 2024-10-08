@@ -26,6 +26,7 @@ dist-ssr
 .vite
 
 /backend/database/dev_data/*
+/backend/database/test_data/*
 
 frontend/.env.development
 frontend/.env.production
