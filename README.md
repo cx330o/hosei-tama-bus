@@ -25,7 +25,7 @@ Transferring a snippet of text or a file between devices shouldn't require insta
 
 ## Screenshot
 
-![Screenshot](assets/1.png)
+![Screenshot](assets/screenshot.webp)
 
 ## Tech Stack
 
